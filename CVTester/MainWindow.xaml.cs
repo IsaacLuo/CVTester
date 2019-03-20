@@ -24,5 +24,10 @@ namespace CVTester
         {
             InitializeComponent();
         }
+
+        private void Window_Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 }
