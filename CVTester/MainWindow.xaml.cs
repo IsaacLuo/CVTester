@@ -21,36 +21,47 @@ namespace CVTester
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string[] fileNames;
         public MainWindow()
         {
             InitializeComponent();
-            this.listBoxFileNames.Items.Add("1");
-            this.listBoxFileNames.Items.Add("2");
         }
 
         private void Window_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                // Note that you can have more than one file.
                 this.fileNames = (string[])e.Data.GetData(DataFormats.FileDrop);
-                // Assuming you have one file that you care about, pass it off to whatever
-                // handling code you have defined.
-                foreach(string fileName in this.fileNames)
+                this.listBoxFileNames.Items.Clear();
+                for(int i=0;i<this.fileNames.Length;i++)
                 {
-                    string mainFileName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+                    string mainFileName = System.IO.Path.GetFileNameWithoutExtension(this.fileNames[i]);
                     this.listBoxFileNames.Items.Add(mainFileName);
                 }
             }
         }
 
-        private string[] fileNames;
-
-
         private void ListBoxFileNames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            this.listBoxFileNames.Items.Add(e.AddedItems[0]);
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+            int index = this.listBoxFileNames.Items.IndexOf(e.AddedItems[0]);
+            string filename = this.fileNames[index];
+            try
+            {
+                ExperimentResult result = RunSubProcess.run(filename);
+                this.textBlock.Text = System.IO.File.ReadAllText(result.textFileName);
+                BitmapImage src = new BitmapImage(new Uri(result.pictureFileName, UriKind.RelativeOrAbsolute));
+                
+
+                this.image.Source = src;
+            }
+            catch(Exception exception)
+            {
+                this.textBlock.Text = exception.Message;
+            }
         }
     }
 }

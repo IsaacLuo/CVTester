@@ -16,12 +16,11 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBoxFileNames" MinWidth="200" Background="Gainsboro" SelectionChanged="ListBoxFileNames_SelectionChanged"  Margin="0,0,394,0" Grid.Row="1" Grid.Column="0"/>
-        <Image x:Name="image" Grid.Column="1" Grid.RowSpan="2">
-            <Image.Effect>
-                <DropShadowEffect/>
-            </Image.Effect>
-        </Image>
+        <ListBox x:Name="listBoxFileNames" MinWidth="200" Background="#FFFFFFFF" SelectionChanged="ListBoxFileNames_SelectionChanged" Grid.Row="1" Grid.Column="0"/>
+        <TextBlock x:Name="textBlock" Grid.Column="2" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock"/>
+        <DockPanel Grid.Column="1" Grid.Row="1" Background="#FFAAAAAA" >
+            <Image x:Name="image"/>
+        </DockPanel>
 
 
     </Grid>
